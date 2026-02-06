@@ -1,0 +1,8 @@
+resilience4j:
+  circuitbreaker:
+    instances:
+      externalProvider: # Matches the name in @CircuitBreaker(name = "externalProvider")
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10000 # 10 seconds
+        registerHealthIndicator: true

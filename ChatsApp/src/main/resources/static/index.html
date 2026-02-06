@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ChatsApp</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        #chat-box { width: 500px; height: 300px; border: 1px solid #ccc; overflow-y: scroll; margin-bottom: 10px; padding: 5px;}
+    </style>
+</head>
+<body>
+<h2>Spring Boot + Redis Chat</h2>
+<div id="chat-box"></div>
+<input type="text" id="msgInput" placeholder="Type message..." />
+<button onclick="sendMsg()">Send</button>
+
+<script>
+    var stompClient = null;
+
+    function connect() {
+        // Connect to the endpoint defined in WebSocketConfig.java
+        var socket = new SockJS('/ws-chat');
+        stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, function (frame) {
+            console.log('Connected: ' + frame);
+            // Subscribe to the topic defined in RedisSubscriber.java
+            stompClient.subscribe('/topic/messages', function (message) {
+                showMsg(message.body);
+            });
+        });
+    }
+
+    function sendMsg() {
+        var input = document.getElementById('msgInput');
+        // Send to the controller method defined in ChatController.java
+        stompClient.send("/app/chat", {}, input.value);
+        input.value = '';
+    }
+
+    function showMsg(message) {
+        var box = document.getElementById('chat-box');
+        var p = document.createElement('p');
+        p.innerText = message;
+        box.appendChild(p);
+    }
+
+    connect(); // Connect on page load
+</script>
+</body>
+</html>
