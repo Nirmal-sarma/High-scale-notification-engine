@@ -22,18 +22,9 @@ public class SmsConsumer {
 
     @KafkaListener(topics = "notification-topic", groupId = "sms-group")
     public void consumeSms(NotificationEvent event) {
-        // 1. Channel Filter
-        if (!"SMS".equalsIgnoreCase(event.getType()) && !"ALL".equalsIgnoreCase(event.getType())) {
-            return;
-        }
+        // Logic check for SMS type
+        if (!"SMS".equalsIgnoreCase(event.getType())) return;
 
-        // 2. Rate Limit Check (Redis)
-        if (!rateLimiter.isAllowed(event.getUserId())) {
-            log.warn("SMS throttled for user: {}", event.getUserId());
-            return;
-        }
-
-        // 3. Send via External Provider (Circuit Breaker is inside callSmsApi)
         providerClient.sendToExternalApi("SMS", event.getMessage());
     }
 }

@@ -15,8 +15,12 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.listener.CommonErrorHandler;
+import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
+import org.springframework.kafka.listener.DefaultErrorHandler;
 import org.springframework.kafka.support.serializer.JacksonJsonDeserializer;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.backoff.FixedBackOff;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,6 +44,18 @@ public class KafkaConfig {
     @Bean
     public KafkaTemplate<String, Object> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
+    }
+
+    @Bean
+    public CommonErrorHandler errorHandler(KafkaTemplate<String, Object> template) {
+        // 1. This tells Kafka to send the failed message to topicName.DLT
+        DeadLetterPublishingRecoverer recoverer = new DeadLetterPublishingRecoverer(template);
+
+        // 2. Retry 3 times, with a 2-seconds delay
+        FixedBackOff backOff = new FixedBackOff(2000L, 3);
+
+        // 3. Create the handler that Spring will use for all @KafkaListeners
+        return new DefaultErrorHandler(recoverer, backOff);
     }
 
     // Configures the Consumer to handle JSON objects
