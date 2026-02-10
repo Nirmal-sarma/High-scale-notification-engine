@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-  # Zookeeper: Manages Kafka cluster state
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     container_name: zookeeper
@@ -9,9 +8,8 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
 
-  # Kafka: The heart of your event-driven fan-out
   kafka:
-    image: confluentinc/cp-kafka:latest
+    image: confluentinc/cp-kafka:7.5.0
     container_name: kafka
     depends_on:
       - zookeeper
@@ -20,12 +18,13 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      # FIX: Define two listeners—one for your laptop (localhost) and one for other containers (kafka)
+      KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER://kafka:29092,LISTENER_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER:PLAINTEXT,LISTENER_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      # Allows automatic creation of the .DLT topics
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
 
-  # Redis: Used for distributed rate limiting
   redis:
     image: redis:latest
     container_name: redis_cache
@@ -33,7 +32,6 @@ services:
       - "6379:6379"
     command: ["redis-server", "--appendonly", "yes"]
 
-  # (Optional) Redpanda Console: A UI to view your Kafka messages/DLQ
   kafka-ui:
     image: docker.redpanda.com/redpandadata/console:latest
     container_name: kafka-ui
@@ -42,4 +40,5 @@ services:
     ports:
       - "8081:8080"
     environment:
-      KAFKA_BROKERS: kafka:9092
+      # FIX: Use the internal Docker listener address
+      KAFKA_BROKERS: "kafka:29092"

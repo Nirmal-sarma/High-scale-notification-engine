@@ -1,4 +1,4 @@
-package com.example.notification.service;
+package com.example.ChatsApp.service;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.stereotype.Service;

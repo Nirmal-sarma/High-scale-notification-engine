@@ -1,7 +1,7 @@
 package com.example.ChatsApp.consumer;
 
 import com.example.ChatsApp.model.NotificationEvent;
-import com.example.notification.service.ProviderClient;
+import com.example.ChatsApp.service.ProviderClient;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
