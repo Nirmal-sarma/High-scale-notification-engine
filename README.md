@@ -39,5 +39,5 @@ sequenceDiagram
     Note over Ext: If Provider Fails 3x
     Ext-->>Consumer: Exception
     Consumer->>Kafka: Move to notification-topic.DLT 
-
+```
 
