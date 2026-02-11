@@ -83,7 +83,7 @@ For calling the Api, you can use Postman to test the api with the above json pay
 
 After going to the Kafka-ui (http://localhost:8081) , you will find Redpanda UI where all the topics informations will be listed, go to Topics in Sidebar , you will find all your notification message displayed.
 
-<img width="1000" height="700" alt="image" src="https://github.com/user-attachments/assets/557ef53b-8093-4062-b690-641afc7fdd83" />
+<img width="1000" height="600" alt="image" src="https://github.com/user-attachments/assets/8bde4298-958a-4c65-bb19-679cd41b2576" />
 
 
 
