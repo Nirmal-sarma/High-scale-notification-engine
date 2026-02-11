@@ -58,4 +58,13 @@ Accepts a notification payload and queues it for the fan-out process.
   "type": "PUSH", 
   "priority": "HIGH" 
 }
+```
+## 🚦 Quick Start
 
+###  Launch Infrastructure
+Start the required services (Zookeeper, Kafka, Redis, and Kafka-UI) in detached mode:
+
+```bash
+docker-compose up -d
+```
+Note: Please wait a moment for the containers to initialize. Ensure zookeeper, kafka, redis_cache, and kafka-ui show a healthy status in your Docker dashboard.
