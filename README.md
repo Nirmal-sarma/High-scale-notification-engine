@@ -68,3 +68,21 @@ Start the required services (Zookeeper, Kafka, Redis, and Kafka-UI) in detached 
 docker-compose up -d
 ```
 Note: Please wait a moment for the containers to initialize. Ensure zookeeper, kafka, redis_cache, and kafka-ui show a healthy status in your Docker dashboard.
+<img width="1495" height="456" alt="image" src="https://github.com/user-attachments/assets/85d30944-9b36-420f-b2ae-6635ab87c870" />
+
+
+### Monitor & Verify
+
+Once the application is live, you can monitor the real-time message flow and manage Kafka topics through the web interface:
+Kafka UI: http://localhost:8081
+
+For calling the Api, you can use Postman to test the api with the above json payload to get the response with status 200OK
+
+<img width="1000" height="800" alt="image" src="https://github.com/user-attachments/assets/375c6a18-8c19-48a0-a513-f77a926502f8" />
+
+After going to the Kafka-ui (http://localhost:8081) , you will find Redpanda UI where all the topics informations will be listed, go to Topics in Sidebar , you will find all your notification message displayed.
+
+<img width="1000" height="700" alt="image" src="https://github.com/user-attachments/assets/557ef53b-8093-4062-b690-641afc7fdd83" />
+
+
+
