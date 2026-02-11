@@ -78,7 +78,8 @@ Kafka UI: http://localhost:8081
 
 For calling the Api, you can use Postman to test the api with the above json payload to get the response with status 200OK
 
-<img width="1000" height="800" alt="image" src="https://github.com/user-attachments/assets/375c6a18-8c19-48a0-a513-f77a926502f8" />
+<img width="1000" height="700" alt="image" src="https://github.com/user-attachments/assets/0bfb2230-0a03-43f6-bcae-6d74a025df9d" />
+
 
 After going to the Kafka-ui (http://localhost:8081) , you will find Redpanda UI where all the topics informations will be listed, go to Topics in Sidebar , you will find all your notification message displayed.
 
